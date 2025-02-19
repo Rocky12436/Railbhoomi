@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Railway Complaint Management System</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#3B82F6',
+secondary: '#10B981'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+}
+}
+}
+}
+</script>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+/* Remove or comment out these styles */
+/*
+.scroll-reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
+.scroll-reveal.active { opacity: 1; transform: translateY(0); }
+.floating-animation {
+animation: float 3s ease-in-out infinite;
+}
+@keyframes float {
+0% { transform: translateY(0px); }
+50% { transform: translateY(-10px); }
+100% { transform: translateY(0px); }
+}
+*/
+.shimmer {
+background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+background-size: 200% 100%;
+animation: shimmer 1.5s infinite;
+}
+@keyframes shimmer {
+0% { background-position: 200% 0; }
+100% { background-position: -200% 0; }
+}
+.priority-slider::-webkit-slider-thumb {
+-webkit-appearance: none;
+appearance: none;
+width: 20px;
+height: 20px;
+background: #3B82F6;
+border-radius: 50%;
+cursor: pointer;
+}
+</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+<header class="fixed w-full bg-white shadow-sm z-50">
+<nav class="container mx-auto px-6 py-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-8">
+<div class="font-['Pacifico'] text-2xl text-primary">logo</div>
+<div class="flex items-center space-x-6">
+<a href="#" class="text-gray-700 hover:text-primary transition-colors">Home</a>
+<a href="#" class="text-gray-700 hover:text-primary transition-colors">File Complaint</a>
+<a href="#" class="text-gray-700 hover:text-primary transition-colors">Track Status</a>
+<a href="#" class="text-gray-700 hover:text-primary transition-colors">Statistics</a>
+<a href="#" class="text-gray-700 hover:text-primary transition-colors">Help Center</a>
+</div>
+</div>
+<div class="flex items-center space-x-6">
+<div class="flex items-center space-x-1 text-green-500">
+<i class="ri-checkbox-circle-line w-5 h-5 flex items-center justify-center"></i>
+<span class="text-sm">System Operational</span>
+</div>
+<div class="h-6 w-px bg-gray-200"></div>
+<div class="relative">
+<button id="langSelector" class="flex items-center space-x-2 text-gray-700 hover:text-primary transition-colors !rounded-button px-4 py-2">
+<i class="ri-global-line w-5 h-5 flex items-center justify-center"></i>
+<span>English</span>
+<i class="ri-arrow-down-s-line w-5 h-5 flex items-center justify-center"></i>
+</button>
+<div id="langMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">English</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">简体中文</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Español</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">हिंदी</a>
+</div>
+</div>
+<button onclick="window.location.href='login.html'" class="bg-white text-primary border border-primary px-6 py-2 !rounded-button hover:bg-primary hover:text-white transition-colors whitespace-nowrap">
+  Login
+</button>
+<button onclick="window.location.href='registration.html';" class="bg-primary text-white px-6 py-2 !rounded-button hover:bg-blue-600 transition-colors whitespace-nowrap">
+    Register
+</button>
+</div>
+</div>
+</nav>
+</header>
+<main class="pt-20">
+<section class="relative h-[600px] bg-gradient-to-r from-blue-50 to-blue-100 overflow-hidden">
+<div class="container mx-auto px-6 h-full flex items-center">
+<div class="w-1/2 pr-12">
+<h1 class="text-5xl font-bold text-gray-900 mb-6">AI Enhanced Railway Complaint Management System.</h1>
+<p class="text-xl text-gray-600 mb-8">Experience our advanced AI-powered complaint management system. We're here to listen and resolve your concerns efficiently.</p>
+<button class="bg-primary text-white px-8 py-3 !rounded-button hover:bg-blue-600 hover:scale-105 transition-all flex items-center space-x-2">
+<i class="ri-file-text-line w-5 h-5 flex items-center justify-center"></i>
+<span><a href="#Here">File New Complaint</a></span>
+</button>
+</div>
+<div class="w-1/2">
+<img src="https://public.readdy.ai/ai/img_res/471044f10fd310c267f272a149b7fa86.jpg"
+class="w-full h-auto rounded-lg shadow-2xl" alt="Modern Railway Station">
+</div>
+</div>
+</section>
+<section class="py-16 bg-white" id="Here">
+<div class="container mx-auto px-6">
+<div class="max-w-4xl mx-auto">
+<div class="bg-white rounded-xl shadow-xl p-10 border border-gray-100">
+<div class="flex space-x-6 mb-8">
+<button id="textInputBtn" class="flex-1 bg-primary text-white py-4 !rounded-xl flex items-center justify-center shadow-md hover:shadow-lg transition-all">
+<i class="ri-text-line w-6 h-6 flex items-center justify-center mr-3"></i>Text Input
+</button>
+<button id="voiceInputBtn" class="flex-1 bg-white text-gray-700 py-4 !rounded-xl hover:bg-gray-50 transition-all flex items-center justify-center border border-gray-200">
+<i class="ri-mic-line w-6 h-6 flex items-center justify-center mr-3"></i>Voice Input
+</button>
+<button id="imageInputBtn" class="flex-1 bg-white text-gray-700 py-4 !rounded-xl hover:bg-gray-50 transition-all flex items-center justify-center border border-gray-200">
+<i class="ri-image-line w-6 h-6 flex items-center justify-center mr-3"></i>Image Upload
+</button>
+</div>
+<div class="flex items-center space-x-4 mb-6 text-gray-500 text-sm">
+<div class="flex items-center">
+<i class="ri-text-line w-4 h-4 flex items-center justify-center mr-1"></i>
+<span>Type your complaint</span>
+</div>
+<div class="flex items-center">
+<i class="ri-mic-line w-4 h-4 flex items-center justify-center mr-1"></i>
+<span>Record your voice</span>
+</div>
+<div class="flex items-center">
+<i class="ri-image-line w-4 h-4 flex items-center justify-center mr-1"></i>
+<span>Upload images</span>
+</div>
+</div>
+<div id="textInputSection" class="space-y-6">
+<div class="relative">
+<textarea id="complaintText"
+class="w-full h-40 p-6 bg-gray-50 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent resize-none border-none text-gray-700 placeholder-gray-400"
+placeholder="Please describe your complaint in detail..."></textarea>
+<div class="absolute bottom-4 right-4 flex items-center space-x-4 text-sm text-gray-500">
+<span class="flex items-center">
+<i class="ri-translate-2-line w-4 h-4 flex items-center justify-center mr-1"></i>
+Auto-translating
+</span>
+<span id="charCount">0/500</span>
+</div>
+</div>
+</div>
+<div id="voiceInputSection" class="hidden space-y-6">
+<div class="flex flex-col items-center space-y-4">
+<button title="#" id="startSpeechRecognition" class="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
+<i class="ri-mic-line w-8 h-8 flex items-center justify-center"></i>
+</button>
+<p id="speechStatus" class="text-sm text-gray-500">Click to start speaking</p>
+<div id="speechTranscript" class="w-full p-4 bg-gray-50 rounded-lg min-h-[80px]">
+<p class="text-sm text-gray-600">Your speech will appear here...</p>
+</div>
+</div>
+</div>
+<div id="imageInputSection" class="hidden space-y-6">
+<div class="flex flex-col items-center space-y-4">
+<label class="w-full h-32 flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-primary transition-colors">
+<i class="ri-upload-cloud-line w-8 h-8 flex items-center justify-center text-gray-400"></i>
+<span class="mt-2 text-sm text-gray-500">Drop your images here or click to upload</span>
+<input type="file" class="hidden" accept="image/*" multiple id="imageUpload">
+</label>
+<div id="imagePreview" class="w-full grid grid-cols-3 gap-4"></div>
+</div>
+</div>
+<div class="mt-6">
+<div id="aiAnalysis" class="mb-4 hidden">
+<div class="flex items-center space-x-2 mb-2">
+<i class="ri-robot-line w-5 h-5 flex items-center justify-center text-primary"></i>
+<span class="text-sm font-medium">AI Analysis</span>
+</div>
+<div class="p-3 bg-blue-50 rounded-lg">
+<p class="text-sm text-gray-600">Analyzing your complaint...</p>
+<div class="mt-2">
+<span class="text-xs font-medium">Detected Priority:</span>
+<span id="detectedPriority" class="text-xs ml-2 px-2 py-1 rounded-full"></span>
+</div>
+</div>
+</div>
+<button id="submitComplaint" class="w-full bg-primary text-white py-4 !rounded-xl hover:bg-blue-600 transition-all flex items-center justify-center shadow-lg hover:shadow-xl">
+<i class="ri-send-plane-line w-5 h-5 flex items-center justify-center mr-2"></i>
+<span>Submit Complaint</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+const textInputBtn = document.getElementById('textInputBtn');
+const voiceInputBtn = document.getElementById('voiceInputBtn');
+const imageInputBtn = document.getElementById('imageInputBtn');
+const textInputSection = document.getElementById('textInputSection');
+const voiceInputSection = document.getElementById('voiceInputSection');
+const imageInputSection = document.getElementById('imageInputSection');
+const startRecording = document.getElementById('startRecording');
+const recordingStatus = document.getElementById('recordingStatus');
+const voiceTranscript = document.getElementById('voiceTranscript');
+const imageUpload = document.getElementById('imageUpload');
+const imagePreview = document.getElementById('imagePreview');
+const complaintText = document.getElementById('complaintText');
+const charCount = document.getElementById('charCount');
+const aiAnalysis = document.getElementById('aiAnalysis');
+const detectedPriority = document.getElementById('detectedPriority');
+let isRecording = false;
+let mediaRecorder;
+let audioChunks = [];
+function showSection(section) {
+[textInputSection, voiceInputSection, imageInputSection].forEach(s => s.classList.add('hidden'));
+section.classList.remove('hidden');
+[textInputBtn, voiceInputBtn, imageInputBtn].forEach(btn => {
+btn.classList.remove('bg-primary', 'text-white');
+btn.classList.add('bg-gray-100', 'text-gray-600');
+});
+}
+textInputBtn.addEventListener('click', () => {
+showSection(textInputSection);
+textInputBtn.classList.remove('bg-gray-100', 'text-gray-600');
+textInputBtn.classList.add('bg-primary', 'text-white');
+});
+voiceInputBtn.addEventListener('click', () => {
+showSection(voiceInputSection);
+voiceInputBtn.classList.remove('bg-gray-100', 'text-gray-600');
+voiceInputBtn.classList.add('bg-primary', 'text-white');
+});
+imageInputBtn.addEventListener('click', () => {
+showSection(imageInputSection);
+imageInputBtn.classList.remove('bg-gray-100', 'text-gray-600');
+imageInputBtn.classList.add('bg-primary', 'text-white');
+});
+const startSpeechRecognition = document.getElementById('startSpeechRecognition');
+const speechStatus = document.getElementById('speechStatus');
+const speechTranscript = document.getElementById('speechTranscript');
+let recognition;
+if ('webkitSpeechRecognition' in window) {
+recognition = new webkitSpeechRecognition();
+recognition.continuous = true;
+recognition.interimResults = true;
+recognition.onstart = () => {
+speechStatus.textContent = 'Listening... Click to stop';
+startSpeechRecognition.classList.add('bg-red-500');
+};
+recognition.onresult = (event) => {
+let finalTranscript = '';
+let interimTranscript = '';
+for (let i = event.resultIndex; i < event.results.length; i++) {
+const transcript = event.results[i][0].transcript;
+if (event.results[i].isFinal) {
+finalTranscript += transcript;
+} else {
+interimTranscript += transcript;
+}
+}
+speechTranscript.querySelector('p').innerHTML =
+finalTranscript +
+'<span style="color: #666;">' + interimTranscript + '</span>';
+if (finalTranscript) {
+analyzeComplaint(finalTranscript);
+}
+};
+recognition.onerror = (event) => {
+speechStatus.textContent = 'Error occurred in recognition: ' + event.error;
+};
+recognition.onend = () => {
+speechStatus.textContent = 'Click to start speaking';
+startSpeechRecognition.classList.remove('bg-red-500');
+};
+let isRecognizing = false;
+startSpeechRecognition.addEventListener('click', () => {
+if (!isRecognizing) {
+recognition.start();
+isRecognizing = true;
+} else {
+recognition.stop();
+isRecognizing = false;
+}
+});
+} else {
+startSpeechRecognition.style.display = 'none';
+speechStatus.textContent = 'Speech recognition is not supported in this browser.';
+}
+imageUpload.addEventListener('change', (e) => {
+imagePreview.innerHTML = '';
+Array.from(e.target.files).forEach(file => {
+const reader = new FileReader();
+reader.onload = (e) => {
+const img = document.createElement('img');
+img.src = e.target.result;
+img.classList.add('w-full', 'h-32', 'object-cover', 'rounded-lg');
+imagePreview.appendChild(img);
+};
+reader.readAsDataURL(file);
+});
+analyzeComplaint();
+});
+complaintText.addEventListener('input', (e) => {
+const length = e.target.value.length;
+charCount.textContent = `${length}/500`;
+if (length > 20) {
+analyzeComplaint();
+}
+});
+function simulateTranscription() {
+setTimeout(() => {
+const transcribedText = "The train was delayed by 30 minutes without any announcement.";
+voiceTranscript.querySelector('p').textContent = transcribedText;
+analyzeComplaint(transcribedText);
+}, 2000);
+}
+function analyzeComplaint(text = complaintText.value) {
+if (!text) return;
+aiAnalysis.classList.remove('hidden');
+setTimeout(() => {
+const priorities = [
+{ class: 'bg-red-100 text-red-600', text: 'High Priority' },
+{ class: 'bg-yellow-100 text-yellow-600', text: 'Medium Priority' },
+{ class: 'bg-green-100 text-green-600', text: 'Low Priority' }
+];
+const randomPriority = priorities[Math.floor(Math.random() * priorities.length)];
+detectedPriority.className = `text-xs ml-2 px-2 py-1 rounded-full ${randomPriority.class}`;
+detectedPriority.textContent = randomPriority.text;
+}, 1000);
+}
+});
+</script>
+<section class="py-16 bg-gray-50">
+<div class="container mx-auto px-6">
+<h2 class="text-3xl font-bold text-center mb-12">Track Your Complaints</h2>
+<div class="grid grid-cols-3 gap-6">
+<div class="bg-white rounded-lg shadow-lg p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="text-sm text-gray-500">#REF-2025021701</span>
+<h3 class="font-semibold mt-1">Delayed Train Service</h3>
+</div>
+<span class="px-3 py-1 bg-red-100 text-red-600 rounded-full text-sm">High Priority</span>
+</div>
+<p class="text-gray-600 text-sm mb-4">Train was delayed by 45 minutes without any prior notification...</p>
+<div class="flex justify-between items-center">
+<span class="text-sm text-gray-500">Submitted: 2 hours ago</span>
+<span class="text-sm font-medium text-yellow-600">In Progress</span>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-lg p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="text-sm text-gray-500">#REF-2025021702</span>
+<h3 class="font-semibold mt-1">Platform Cleanliness</h3>
+</div>
+<span class="px-3 py-1 bg-yellow-100 text-yellow-600 rounded-full text-sm">Medium Priority</span>
+</div>
+<p class="text-gray-600 text-sm mb-4">Platform 3 requires immediate cleaning attention...</p>
+<div class="flex justify-between items-center">
+<span class="text-sm text-gray-500">Submitted: 5 hours ago</span>
+<span class="text-sm font-medium text-green-600">Resolved</span>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-lg p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="text-sm text-gray-500">#REF-2025021703</span>
+<h3 class="font-semibold mt-1">Ticket Machine Issue</h3>
+</div>
+<span class="px-3 py-1 bg-green-100 text-green-600 rounded-full text-sm">Low Priority</span>
+</div>
+<p class="text-gray-600 text-sm mb-4">Ticket machine at entrance B is not accepting card payments...</p>
+<div class="flex justify-between items-center">
+<span class="text-sm text-gray-500">Submitted: 1 day ago</span>
+<span class="text-sm font-medium text-blue-600">Under Review</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-16 bg-white">
+<div class="container mx-auto px-6">
+<h2 class="text-3xl font-bold text-center mb-4">Complaint Resolution Statistics</h2>
+<p class="text-gray-600 text-center mb-12 max-w-2xl mx-auto">Track our performance metrics and see how we're improving our service quality through data-driven insights</p>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<div class="bg-gray-50 rounded-xl p-6 shadow-lg">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-semibold text-gray-800">Resolution Timeline</h3>
+<div class="flex items-center space-x-2 text-sm text-gray-600">
+<span class="flex items-center">
+<i class="ri-time-line w-4 h-4 flex items-center justify-center mr-1"></i>
+Last 7 days
+</span>
+</div>
+</div>
+<div class="h-80" id="resolutionTimeChart"></div>
+</div>
+<div class="bg-gray-50 rounded-xl p-6 shadow-lg">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-semibold text-gray-800">Complaint Categories</h3>
+<div class="flex items-center space-x-2 text-sm text-gray-600">
+<span class="flex items-center">
+<i class="ri-pie-chart-line w-4 h-4 flex items-center justify-center mr-1"></i>
+Current Month
+</span>
+</div>
+</div>
+<div class="h-80" id="complaintTypeChart"></div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-16 bg-gray-50">
+<div class="container mx-auto px-6 text-center">
+<h2 class="text-3xl font-bold mb-8">How was your experience?</h2>
+<div class="flex justify-center space-x-4 mb-8">
+<button title="#" class="text-3xl text-gray-400 hover:text-yellow-400 transition-colors">
+<i class="ri-star-line w-10 h-10 flex items-center justify-center"></i>
+</button>
+<button title="#" class="text-3xl text-gray-400 hover:text-yellow-400 transition-colors">
+<i class="ri-star-line w-10 h-10 flex items-center justify-center"></i>
+</button>
+<button title="#" class="text-3xl text-gray-400 hover:text-yellow-400 transition-colors">
+<i class="ri-star-line w-10 h-10 flex items-center justify-center"></i>
+</button>
+<button title="#" class="text-3xl text-gray-400 hover:text-yellow-400 transition-colors">
+<i class="ri-star-line w-10 h-10 flex items-center justify-center"></i>
+</button>
+<button title="#" class="text-3xl text-gray-400 hover:text-yellow-400 transition-colors">
+<i class="ri-star-line w-10 h-10 flex items-center justify-center"></i>
+</button>
+</div>
+<textarea
+class="w-full max-w-2xl mx-auto h-32 p-4 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+placeholder="Share your feedback (optional)"></textarea>
+<button class="mt-6 bg-primary text-white px-8 py-3 !rounded-button hover:bg-blue-600 transition-colors">
+Submit Feedback
+</button>
+</div>
+</section>
+</main>
+<footer class="bg-gray-900 text-white py-12">
+<div class="container mx-auto px-6">
+<div class="grid grid-cols-4 gap-8">
+<div>
+<div class="font-['Pacifico'] text-2xl mb-4">logo</div>
+<p class="text-gray-400">Making your railway journey better through effective complaint management.</p>
+</div>
+<div>
+<h3 class="font-semibold mb-4">Quick Links</h3>
+<ul class="space-y-2 text-gray-400">
+<li><a href="#" class="hover:text-white transition-colors">File Complaint</a></li>
+<li><a href="#" class="hover:text-white transition-colors">Track Complaint</a></li>
+<li><a href="#" class="hover:text-white transition-colors">FAQs</a></li>
+<li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-semibold mb-4">Support</h3>
+<ul class="space-y-2 text-gray-400">
+<li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+<li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+<li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+<li><a href="#" class="hover:text-white transition-colors">Accessibility</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-semibold mb-4">Connect With Us</h3>
+<div class="flex space-x-4">
+<a href="#" class="text-gray-400 hover:text-white transition-colors">
+<i class="ri-twitter-line w-6 h-6 flex items-center justify-center"></i>
+</a>
+<a href="#" class="text-gray-400 hover:text-white transition-colors">
+<i class="ri-facebook-line w-6 h-6 flex items-center justify-center"></i>
+</a>
+<a href="#" class="text-gray-400 hover:text-white transition-colors">
+<i class="ri-instagram-line w-6 h-6 flex items-center justify-center"></i>
+</a>
+<a href="#" class="text-gray-400 hover:text-white transition-colors">
+<i class="ri-linkedin-line w-6 h-6 flex items-center justify-center"></i>
+</div>
+</div>
+</div>
+<div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+<p>&copy; 2025 Railway Complaint Management System. All rights reserved.</p>
+</div>
+</div>
+</footer>
+<button title="#" id="scrollToTop" class="fixed bottom-8 right-8 bg-primary text-white w-12 h-12 rounded-full shadow-lg hover:bg-blue-600 transition-colors hidden">
+<i class="ri-arrow-up-line w-full h-full flex items-center justify-center"></i>
+</button>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+const langSelector = document.getElementById('langSelector');
+const langMenu = document.getElementById('langMenu');
+const scrollToTopBtn = document.getElementById('scrollToTop');
+const scrollRevealElements = document.querySelectorAll('.scroll-reveal');
+const stars = document.querySelectorAll('.ri-star-line');
+langSelector.addEventListener('click', () => {
+langMenu.classList.toggle('hidden');
+});
+document.addEventListener('click', (e) => {
+if (!langSelector.contains(e.target)) {
+langMenu.classList.add('hidden');
+}
+});
+window.addEventListener('scroll', () => {
+if (window.pageYOffset > 300) {
+scrollToTopBtn.classList.remove('hidden');
+} else {
+scrollToTopBtn.classList.add('hidden');
+}
+scrollRevealElements.forEach(el => {
+if (el.getBoundingClientRect().top < window.innerHeight - 100) {
+el.classList.add('active');
+}
+});
+});
+scrollToTopBtn.addEventListener('click', () => {
+window.scrollTo({
+top: 0,
+behavior: 'smooth'
+});
+});
+stars.forEach((star, index) => {
+star.addEventListener('click', () => {
+stars.forEach((s, i) => {
+if (i <= index) {
+s.classList.remove('ri-star-line');
+s.classList.add('ri-star-fill');
+s.classList.add('text-yellow-400');
+} else {
+s.classList.remove('ri-star-fill', 'text-yellow-400');
+s.classList.add('ri-star-line');
+}
+});
+});
+});
+const resolutionTimeChart = echarts.init(document.getElementById('resolutionTimeChart'));
+const complaintTypeChart = echarts.init(document.getElementById('complaintTypeChart'));
+const resolutionTimeOption = {
+animation: false,
+title: {
+text: 'Average Resolution Time',
+left: 'center',
+textStyle: {
+color: '#1f2937'
+}
+},
+tooltip: {
+trigger: 'axis',
+backgroundColor: 'rgba(255, 255, 255, 0.9)',
+textStyle: {
+color: '#1f2937'
+}
+},
+xAxis: {
+type: 'category',
+data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+axisLine: {
+lineStyle: {
+color: '#1f2937'
+}
+}
+},
+yAxis: {
+type: 'value',
+name: 'Hours',
+axisLine: {
+lineStyle: {
+color: '#1f2937'
+}
+}
+},
+series: [{
+data: [24, 18, 16, 20, 15, 22, 19],
+type: 'line',
+smooth: true,
+lineStyle: {
+color: 'rgba(87, 181, 231, 1)'
+},
+areaStyle: {
+color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+offset: 0,
+color: 'rgba(87, 181, 231, 0.3)'
+}, {
+offset: 1,
+color: 'rgba(87, 181, 231, 0.1)'
+}])
+}
+}],
+grid: {
+top: 60,
+right: 20,
+bottom: 40,
+left: 50
+}
+};
+const complaintTypeOption = {
+animation: false,
+title: {
+text: 'Complaint Categories',
+left: 'center',
+textStyle: {
+color: '#1f2937'
+}
+},
+tooltip: {
+trigger: 'item',
+backgroundColor: 'rgba(255, 255, 255, 0.9)',
+textStyle: {
+color: '#1f2937'
+}
+},
+series: [{
+type: 'pie',
+radius: '70%',
+data: [
+{ value: 35, name: 'Service Delay' },
+{ value: 25, name: 'Facility Issues' },
+{ value: 20, name: 'Staff Behavior' },
+{ value: 20, name: 'Others' }
+],
+itemStyle: {
+borderRadius: 8
+},
+color: [
+'rgba(87, 181, 231, 1)',
+'rgba(141, 211, 199, 1)',
+'rgba(251, 191, 114, 1)',
+'rgba(252, 141, 98, 1)'
+]
+}],
+grid: {
+top: 0,
+right: 0,
+bottom: 0,
+left: 0
+}
+};
+resolutionTimeChart.setOption(resolutionTimeOption);
+complaintTypeChart.setOption(complaintTypeOption);
+window.addEventListener('resize', function() {
+resolutionTimeChart.resize();
+complaintTypeChart.resize();
+});
+});
+</script>
+<!-- <script src="BackEnd.js"></script> -->
+</body>
+</html>
