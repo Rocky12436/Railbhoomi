@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canteen Management - Railway Complaint System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#4477FF",
+                        secondary: "#F3F6FF",
+                    },
+                    borderRadius: {
+                        none: "0px",
+                        sm: "4px",
+                        DEFAULT: "8px",
+                        md: "12px",
+                        lg: "16px",
+                        xl: "20px",
+                        "2xl": "24px",
+                        "3xl": "32px",
+                        full: "9999px",
+                        button: "8px",
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        :where([class^="ri-"])::before { content: "\f3c2"; }
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center">
+                        <span class="text-2xl font-['Pacifico'] text-primary">logo</span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-green-500 flex items-center">
+                        <i class="ri-checkbox-circle-line mr-1"></i>
+                        System Operational
+                    </span>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-gray-600">English</span>
+                        <i class="ri-arrow-down-s-line text-gray-600"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="canteenManagement" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-2xl font-bold text-gray-900">
+                Canteen Management Dashboard
+            </h2>
+            <button
+                onclick="logout()"
+                class="flex items-center px-4 py-2 bg-red-500 text-white rounded-button hover:bg-red-600 transition-colors"
+            >
+                <i class="ri-logout-box-line mr-2"></i>
+                Logout
+            </button>
+        </div>
+        <div class="grid grid-cols-2 gap-6 mb-8">
+            <button
+                onclick="showNewComplaints()"
+                class="p-8 bg-white shadow-lg rounded-lg hover:shadow-xl transition-shadow"
+            >
+                <i class="ri-file-list-3-line text-4xl text-primary mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-900">New Complaints</h3>
+                <p class="text-gray-600 mt-2">
+                    View and manage new canteen-related complaints
+                </p>
+            </button>
+            <button
+                onclick="showResolvedComplaints()"
+                class="p-8 bg-white shadow-lg rounded-lg hover:shadow-xl transition-shadow"
+            >
+                <i class="ri-check-double-line text-4xl text-green-500 mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-900">
+                    Resolved Complaints
+                </h3>
+                <p class="text-gray-600 mt-2">View history of resolved complaints</p>
+            </button>
+        </div>
+        <div
+            id="newComplaintsList"
+            class="bg-white shadow-lg rounded-lg p-6"
+            style="display: none;"
+        >
+            <h3 class="text-xl font-semibold text-gray-900 mb-6">New Complaints</h3>
+            <div class="space-y-4">
+                <!-- Sample complaints will be dynamically populated -->
+            </div>
+        </div>
+        <div
+            id="resolvedComplaintsList"
+            class="bg-white shadow-lg rounded-lg p-6"
+            style="display: none;"
+        >
+            <h3 class="text-xl font-semibold text-gray-900 mb-6">
+                Resolved Complaints
+            </h3>
+            <div class="space-y-4">
+                <!-- Sample resolved complaints will be dynamically populated -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mock data for canteen-related complaints
+        const mockComplaints = [
+            {
+                id: 1,
+                location: "Canteen A",
+                description: "Food quality is poor and unhygienic",
+                timestamp: "2025-03-02 06:30",
+                status: "pending",
+                reportedBy: "James Wilson",
+            },
+            {
+                id: 2,
+                location: "Canteen B",
+                description: "Overcharging for food items",
+                timestamp: "2025-03-02 07:15",
+                status: "pending",
+                reportedBy: "Emily Parker",
+            },
+            {
+                id: 3,
+                location: "Canteen C",
+                description: "Long waiting time for food service",
+                timestamp: "2025-03-02 05:45",
+                status: "resolved",
+                resolvedAt: "2025-03-02 06:30",
+                resolvedBy: "John Martinez",
+            },
+        ];
+
+        function showNewComplaints() {
+            const newComplaintsList = document.getElementById("newComplaintsList");
+            const resolvedComplaintsList = document.getElementById("resolvedComplaintsList");
+            newComplaintsList.style.display = "block";
+            resolvedComplaintsList.style.display = "none";
+            const complaintsContainer = newComplaintsList.querySelector(".space-y-4");
+            complaintsContainer.innerHTML = "";
+            const pendingComplaints = mockComplaints.filter(
+                (complaint) => complaint.status === "pending"
+            );
+            pendingComplaints.forEach((complaint) => {
+                complaintsContainer.innerHTML += `
+                    <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-semibold text-gray-900">${complaint.location}</h4>
+                            <span class="text-sm text-gray-500">${complaint.timestamp}</span>
+                        </div>
+                        <p class="text-gray-700 mb-3">${complaint.description}</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Reported by: ${complaint.reportedBy}</span>
+                            <button onclick="approveComplaint(${complaint.id})" class="px-4 py-2 bg-primary text-white rounded-button hover:bg-blue-600 transition-colors">
+                                Approve Complaint
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            if (pendingComplaints.length === 0) {
+                complaintsContainer.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        No new complaints to show
+                    </div>
+                `;
+            }
+        }
+
+        function showResolvedComplaints() {
+            const newComplaintsList = document.getElementById("newComplaintsList");
+            const resolvedComplaintsList = document.getElementById("resolvedComplaintsList");
+            newComplaintsList.style.display = "none";
+            resolvedComplaintsList.style.display = "block";
+            const complaintsContainer = resolvedComplaintsList.querySelector(".space-y-4");
+            complaintsContainer.innerHTML = "";
+            const resolvedComplaints = mockComplaints.filter(
+                (complaint) => complaint.status === "resolved"
+            );
+            resolvedComplaints.forEach((complaint) => {
+                complaintsContainer.innerHTML += `
+                    <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-semibold text-gray-900">${complaint.location}</h4>
+                            <span class="text-sm text-gray-500">Resolved: ${complaint.resolvedAt}</span>
+                        </div>
+                        <p class="text-gray-700 mb-3">${complaint.description}</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Reported by: ${complaint.reportedBy}</span>
+                            <span class="text-sm text-gray-600">Resolved by: ${complaint.resolvedBy}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            if (resolvedComplaints.length === 0) {
+                complaintsContainer.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        No resolved complaints to show
+                    </div>
+                `;
+            }
+        }
+
+        function approveComplaint(complaintId) {
+            const complaint = mockComplaints.find((c) => c.id === complaintId);
+            if (complaint) {
+                complaint.status = "resolved";
+                complaint.resolvedAt = new Date()
+                    .toISOString()
+                    .slice(0, 16)
+                    .replace("T", " ");
+                complaint.resolvedBy = "Admin User";
+                showNotification(
+                    "Complaint has been approved and marked as resolved",
+                    "success"
+                );
+                showNewComplaints();
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem("isCanteenAdminLoggedIn");
+            window.location.href = "login.html";
+        }
+
+        // Show new complaints by default
+        showNewComplaints();
+    </script>
+</body>
+</html>

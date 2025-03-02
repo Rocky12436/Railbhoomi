@@ -86,6 +86,19 @@
               <div class="text-base">User Login</div>
             </button>
             <button
+              onclick="showAdminOptions()"
+              class="p-6 text-center border rounded-button hover:bg-primary hover:text-white transition-colors"
+            >
+              <i class="ri-admin-line text-3xl mb-3"></i>
+              <div class="text-base">Admin Login</div>
+            </button>
+          </div>
+          <div
+            id="adminOptions"
+            class="grid grid-cols-3 gap-4 mb-8"
+            style="display: none;"
+          >
+            <button
               onclick="showLoginForm('cleanliness')"
               class="p-6 text-center border rounded-button hover:bg-primary hover:text-white transition-colors"
             >
@@ -101,13 +114,13 @@
             </button>
             <button
               onclick="showLoginForm('canteen')"
-              class="p-6 text-center border rounded-button hover:bg-primary hover:text-white transition-colors"
+              class="p-6 text-center border rounded-button hover:text-white transition-colors"
             >
               <i class="ri-restaurant-line text-3xl mb-3"></i>
               <div class="text-base">Canteen Management</div>
             </button>
           </div>
-          <form id="loginForm" class="space-y-6" style="display: none;">
+          <form id="loginForm" class="space-y-6" style="display: none;" onsubmit="handleLogin(event)">
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-2"
                 >Username</label
@@ -120,6 +133,7 @@
                 </div>
                 <input
                   type="text"
+                  id="username"
                   class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-button text-sm"
                   placeholder="Enter your username"
                 />
@@ -137,6 +151,7 @@
                 </div>
                 <input
                   type="password"
+                  id="password"
                   class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-button text-sm"
                   placeholder="Enter your password"
                 />
@@ -262,13 +277,98 @@
         </div>
       </div>
     </div>
+    
     <script>
+      function handleLogin(event) {
+          event.preventDefault(); // Prevent form submission
+  
+          const username = document.getElementById("username").value.trim();
+          const password = document.getElementById("password").value.trim();
+  
+          if (!username || !password) {
+              alert("Please enter valid credentials!");
+              return;
+          }
+  
+          // Determine the role based on the form title or other logic
+          const role = document.querySelector("h2").textContent.toLowerCase();
+  
+          if (role.includes("cleanliness")) {
+              // Admin Login (Cleanliness Management)
+              if (username === "admin" && password === "admin123") {
+                  localStorage.setItem("isAdminLoggedIn", "true");
+                  alert("Login successful! Redirecting to Cleanliness Management...");
+                  window.location.href = "cleanliness-management.html"; // Redirect to admin dashboard
+              } else {
+                  alert("Invalid admin credentials!"); // Show error for invalid admin credentials
+              }
+          } else if (role.includes("ticket")) {
+              // Admin Login (Ticket Management)
+              if (username === "ticketadmin" && password === "ticket123") {
+                  localStorage.setItem("isTicketAdminLoggedIn", "true");
+                  alert("Login successful! Redirecting to Ticket Management...");
+                  window.location.href = "ticket-management.html"; // Redirect to ticket management dashboard
+              } else {
+                  alert("Invalid ticket admin credentials!"); // Show error for invalid ticket admin credentials
+              }
+          } else if (role.includes("canteen")) {
+              // Admin Login (Canteen Management)
+              if (username === "canteenadmin" && password === "canteen123") {
+                  localStorage.setItem("isCanteenAdminLoggedIn", "true");
+                  alert("Login successful! Redirecting to Canteen Management...");
+                  window.location.href = "canteen-management.html"; // Redirect to canteen management dashboard
+              } else {
+                  alert("Invalid canteen admin credentials!"); // Show error for invalid canteen admin credentials
+              }
+          } else {
+              // User Login (Less Specific)
+              if (username && password) { // Allow any non-empty username and password
+                  localStorage.setItem("isLoggedIn", "true");
+                  alert("Login successful! Redirecting...");
+                  window.location.href = "index.html"; // Redirect to user home page
+              } else {
+                  alert("Invalid credentials!"); // Show error for invalid credentials
+              }
+          }
+      }
+  
+      // Check login state and redirect if already logged in
+      document.addEventListener("DOMContentLoaded", () => {
+          const isLoggedIn = localStorage.getItem("isLoggedIn");
+          const isAdminLoggedIn = localStorage.getItem("isAdminLoggedIn");
+          const isTicketAdminLoggedIn = localStorage.getItem("isTicketAdminLoggedIn");
+          const isCanteenAdminLoggedIn = localStorage.getItem("isCanteenAdminLoggedIn");
+  
+          if (isLoggedIn === "true") {
+              window.location.href = "index.html"; // Redirect users to home page
+          } else if (isAdminLoggedIn === "true") {
+              window.location.href = "cleanliness-management.html"; // Redirect cleanliness admins to dashboard
+          } else if (isTicketAdminLoggedIn === "true") {
+              window.location.href = "ticket-management.html"; // Redirect ticket admins to dashboard
+          } else if (isCanteenAdminLoggedIn === "true") {
+              window.location.href = "canteen-management.html"; // Redirect canteen admins to dashboard
+          }
+      });
+  </script>
+
+    <script>
+      function showAdminOptions() {
+        const adminOptions = document.getElementById("adminOptions");
+        const loginForm = document.getElementById("loginForm");
+        const registrationForm = document.getElementById("registrationForm");
+
+        adminOptions.style.display = "grid";
+        loginForm.style.display = "none";
+        registrationForm.style.display = "none";
+      }
       function showLoginForm(role) {
         const loginForm = document.getElementById("loginForm");
         const registrationForm = document.getElementById("registrationForm");
         const registrationLink = document.querySelector("#loginForm .mt-4");
+        const adminOptions = document.getElementById("adminOptions");
         loginForm.style.display = "block";
         registrationForm.style.display = "none";
+        adminOptions.style.display = "none";
         // Only show registration option for user role
         registrationLink.style.display = role === "user" ? "block" : "none";
         // Update form title based on role

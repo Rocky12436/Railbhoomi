@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="styles.css">
+
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Railway Complaint Management System</title>
@@ -34,40 +37,19 @@ DEFAULT: '8px',
 }
 }
 </script>
-<style>
-:where([class^="ri-"])::before { content: "\f3c2"; }
-/* Remove or comment out these styles */
-/*
-.scroll-reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
-.scroll-reveal.active { opacity: 1; transform: translateY(0); }
-.floating-animation {
-animation: float 3s ease-in-out infinite;
-}
-@keyframes float {
-0% { transform: translateY(0px); }
-50% { transform: translateY(-10px); }
-100% { transform: translateY(0px); }
-}
-*/
-.shimmer {
-background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-background-size: 200% 100%;
-animation: shimmer 1.5s infinite;
-}
-@keyframes shimmer {
-0% { background-position: 200% 0; }
-100% { background-position: -200% 0; }
-}
-.priority-slider::-webkit-slider-thumb {
--webkit-appearance: none;
-appearance: none;
-width: 20px;
-height: 20px;
-background: #3B82F6;
-border-radius: 50%;
-cursor: pointer;
-}
-</style>
+
+<script>
+
+  document.addEventListener("DOMContentLoaded", function() {
+      const isLoggedIn = localStorage.getItem("isLoggedIn");
+      if (!isLoggedIn) {
+          window.location.href = "login.html"; // Redirect to login page if not logged in
+      }
+  });
+  </script>
+  
+
+
 </head>
 <body class="bg-gray-50 min-h-screen">
 <header class="fixed w-full bg-white shadow-sm z-50">
@@ -102,12 +84,10 @@ cursor: pointer;
 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">हिंदी</a>
 </div>
 </div>
-<button onclick="window.location.href='login.html'" class="bg-white text-primary border border-primary px-6 py-2 !rounded-button hover:bg-primary hover:text-white transition-colors whitespace-nowrap">
-  Login
+<button onclick="logout()" class="bg-red-500 text-white px-6 py-2 !rounded-button hover:bg-red-700 transition-colors whitespace-nowrap">
+  Logout
 </button>
-<button onclick="window.location.href='registration.html';" class="bg-primary text-white px-6 py-2 !rounded-button hover:bg-blue-600 transition-colors whitespace-nowrap">
-    Register
-</button>
+
 </div>
 </div>
 </nav>
@@ -671,6 +651,16 @@ complaintTypeChart.resize();
 });
 });
 </script>
+<script>
+  function logout() {
+      localStorage.removeItem("isLoggedIn"); // Remove login flag
+      window.location.href = "login.html"; // Redirect to login page
+  }
+  </script>
+  
 <!-- <script src="BackEnd.js"></script> -->
+<script src="styles.css"></script>
+<script src="api.js"></script>
+<script src="js/complaint-handler.js"></script>
 </body>
 </html>

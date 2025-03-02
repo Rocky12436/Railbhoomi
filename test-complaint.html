@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Complaint Submission</title>
+</head>
+<body>
+    <h1>Submit a Complaint</h1>
+    <form id="complaintForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="complaint">Complaint:</label>
+        <textarea id="complaint" name="complaint" required></textarea><br><br>
+
+        <button type="submit">Submit Complaint</button>
+    </form>
+
+    <script>
+        document.getElementById("complaintForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const complaint = document.getElementById("complaint").value;
+
+            try {
+                const response = await fetch("http://localhost:5001/submit-complaint", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ name, email, complaint, images: [] }),
+                });
+
+                const result = await response.json();
+                alert(result.message); // "Complaint submitted successfully"
+            } catch (error) {
+                alert("Failed to submit complaint. Please try again.");
+            }
+        });
+    </script>
+</body>
+</html>
