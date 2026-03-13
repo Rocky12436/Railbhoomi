@@ -53,19 +53,31 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
           <div class="flex items-center">
-            <a href="/" class="flex items-center">
+            <!-- <a href="/" class="flex items-center">
               <span class="text-2xl font-['Pacifico'] text-primary">logo</span>
-            </a>
+            </a> -->
+            <img src="RailBhoomy_LOGO.png" alt="#">
+            <style>
+              nav img{
+                height: 68px; 
+                width: auto; 
+                max-height: 100%; 
+                object-fit: contain; 
+              }
+            </style>
           </div>
           <div class="flex items-center space-x-4">
             <span class="text-sm text-green-500 flex items-center">
               <i class="ri-checkbox-circle-line mr-1"></i>
               System Operational
             </span>
-            <div class="flex items-center space-x-2">
+            <!-- <div class="flex items-center space-x-2">
               <span class="text-sm text-gray-600">English</span>
               <i class="ri-arrow-down-s-line text-gray-600"></i>
-            </div>
+            </div> -->
+            <div class="gtranslate_wrapper"></div>
+            <script>window.gtranslateSettings = {"default_language":"en","native_language_names":true,"detect_browser_language":true,"languages":["en","hi","mr"],"wrapper_selector":".gtranslate_wrapper"}</script>
+            <script src="https://cdn.gtranslate.net/widgets/latest/dropdown.js" defer></script>
           </div>
         </div>
       </div>
@@ -279,76 +291,207 @@
     </div>
     
     <script>
-      function handleLogin(event) {
-          event.preventDefault(); // Prevent form submission
+      // function handleLogin(event) {
+      //     event.preventDefault(); // Prevent form submission
   
-          const username = document.getElementById("username").value.trim();
-          const password = document.getElementById("password").value.trim();
+      //     const username = document.getElementById("username").value.trim();
+      //     const password = document.getElementById("password").value.trim();
   
-          if (!username || !password) {
-              alert("Please enter valid credentials!");
-              return;
-          }
+      //     if (!username || !password) {
+      //         alert("Please enter valid credentials!");
+      //         return;
+      //     }
   
-          // Determine the role based on the form title or other logic
-          const role = document.querySelector("h2").textContent.toLowerCase();
+      //     // Determine the role based on the form title or other logic
+      //     const role = document.querySelector("h2").textContent.toLowerCase();
   
-          if (role.includes("cleanliness")) {
-              // Admin Login (Cleanliness Management)
-              if (username === "admin" && password === "admin123") {
-                  localStorage.setItem("isAdminLoggedIn", "true");
-                  alert("Login successful! Redirecting to Cleanliness Management...");
-                  window.location.href = "cleanliness-management.html"; // Redirect to admin dashboard
-              } else {
-                  alert("Invalid admin credentials!"); // Show error for invalid admin credentials
-              }
-          } else if (role.includes("ticket")) {
-              // Admin Login (Ticket Management)
-              if (username === "ticketadmin" && password === "ticket123") {
-                  localStorage.setItem("isTicketAdminLoggedIn", "true");
-                  alert("Login successful! Redirecting to Ticket Management...");
-                  window.location.href = "ticket-management.html"; // Redirect to ticket management dashboard
-              } else {
-                  alert("Invalid ticket admin credentials!"); // Show error for invalid ticket admin credentials
-              }
-          } else if (role.includes("canteen")) {
-              // Admin Login (Canteen Management)
-              if (username === "canteenadmin" && password === "canteen123") {
-                  localStorage.setItem("isCanteenAdminLoggedIn", "true");
-                  alert("Login successful! Redirecting to Canteen Management...");
-                  window.location.href = "canteen-management.html"; // Redirect to canteen management dashboard
-              } else {
-                  alert("Invalid canteen admin credentials!"); // Show error for invalid canteen admin credentials
-              }
-          } else {
-              // User Login (Less Specific)
-              if (username && password) { // Allow any non-empty username and password
-                  localStorage.setItem("isLoggedIn", "true");
-                  alert("Login successful! Redirecting...");
-                  window.location.href = "index.html"; // Redirect to user home page
-              } else {
-                  alert("Invalid credentials!"); // Show error for invalid credentials
-              }
-          }
-      }
+      //     if (role.includes("cleanliness")) {
+      //         // Admin Login (Cleanliness Management)
+      //         if (username === "admin" && password === "admin123") {
+      //             localStorage.setItem("isAdminLoggedIn", "true");
+      //             alert("Login successful! Redirecting to Cleanliness Management...");
+      //             window.location.href = "cleanliness-management.html"; // Redirect to admin dashboard
+      //         } else {
+      //             alert("Invalid admin credentials!"); // Show error for invalid admin credentials
+      //         }
+      //     } else if (role.includes("ticket")) {
+      //         // Admin Login (Ticket Management)
+      //         if (username === "ticketadmin" && password === "ticket123") {
+      //             localStorage.setItem("isTicketAdminLoggedIn", "true");
+      //             alert("Login successful! Redirecting to Ticket Management...");
+      //             window.location.href = "ticket-management.html"; // Redirect to ticket management dashboard
+      //         } else {
+      //             alert("Invalid ticket admin credentials!"); // Show error for invalid ticket admin credentials
+      //         }
+      //     } else if (role.includes("canteen")) {
+      //         // Admin Login (Canteen Management)
+      //         if (username === "canteenadmin" && password === "canteen123") {
+      //             localStorage.setItem("isCanteenAdminLoggedIn", "true");
+      //             alert("Login successful! Redirecting to Canteen Management...");
+      //             window.location.href = "canteen-management.html"; // Redirect to canteen management dashboard
+      //         } else {
+      //             alert("Invalid canteen admin credentials!"); // Show error for invalid canteen admin credentials
+      //         }
+      //     } else {
+      //         // User Login (Less Specific)
+      //         if (username && password) { // Allow any non-empty username and password
+      //             localStorage.setItem("isLoggedIn", "true");
+      //             alert("Login successful! Redirecting...");
+      //             window.location.href = "index.html"; // Redirect to user home page
+      //         } else {
+      //             alert("Invalid credentials!"); // Show error for invalid credentials
+      //         }
+      //     }
+      // }
   
-      // Check login state and redirect if already logged in
-      document.addEventListener("DOMContentLoaded", () => {
-          const isLoggedIn = localStorage.getItem("isLoggedIn");
-          const isAdminLoggedIn = localStorage.getItem("isAdminLoggedIn");
-          const isTicketAdminLoggedIn = localStorage.getItem("isTicketAdminLoggedIn");
-          const isCanteenAdminLoggedIn = localStorage.getItem("isCanteenAdminLoggedIn");
+      // // Check login state and redirect if already logged in
+      // document.addEventListener("DOMContentLoaded", () => {
+      //     const isLoggedIn = localStorage.getItem("isLoggedIn");
+      //     const isAdminLoggedIn = localStorage.getItem("isAdminLoggedIn");
+      //     const isTicketAdminLoggedIn = localStorage.getItem("isTicketAdminLoggedIn");
+      //     const isCanteenAdminLoggedIn = localStorage.getItem("isCanteenAdminLoggedIn");
   
-          if (isLoggedIn === "true") {
-              window.location.href = "index.html"; // Redirect users to home page
-          } else if (isAdminLoggedIn === "true") {
-              window.location.href = "cleanliness-management.html"; // Redirect cleanliness admins to dashboard
-          } else if (isTicketAdminLoggedIn === "true") {
-              window.location.href = "ticket-management.html"; // Redirect ticket admins to dashboard
-          } else if (isCanteenAdminLoggedIn === "true") {
-              window.location.href = "canteen-management.html"; // Redirect canteen admins to dashboard
-          }
-      });
+      //     if (isLoggedIn === "true") {
+      //         window.location.href = "index.html"; // Redirect users to home page
+      //     } else if (isAdminLoggedIn === "true") {
+      //         window.location.href = "cleanliness-management.html"; // Redirect cleanliness admins to dashboard
+      //     } else if (isTicketAdminLoggedIn === "true") {
+      //         window.location.href = "ticket-management.html"; // Redirect ticket admins to dashboard
+      //     } else if (isCanteenAdminLoggedIn === "true") {
+      //         window.location.href = "canteen-management.html"; // Redirect canteen admins to dashboard
+      //     }
+      // });
+//       function handleLogin(event) {
+//   event.preventDefault(); // Prevent form submission
+
+//   const username = document.getElementById("username").value.trim();
+//   const password = document.getElementById("password").value.trim();
+
+//   if (!username || !password) {
+//     alert("Please enter valid credentials!");
+//     return;
+//   }
+
+//   // Determine the role based on the form title or other logic
+//   const role = document.querySelector("h2").textContent.toLowerCase();
+
+//   if (role.includes("cleanliness")) {
+//     // Admin Login (Cleanliness Management)
+//     if (username === "admin" && password === "admin123") {
+//       localStorage.setItem("isAdminLoggedIn", "true");
+//       localStorage.setItem("userName", "Cleanliness Admin"); // Store admin name
+//       localStorage.setItem("userEmail", "clean@railway.com"); // Store admin email
+//       alert("Login successful! Redirecting to Cleanliness Management...");
+//       window.location.href = "cleanliness-management.html"; // Redirect to admin dashboard
+//     } else {
+//       alert("Invalid admin credentials!"); // Show error for invalid admin credentials
+//     }
+//   } else if (role.includes("ticket")) {
+//     // Admin Login (Ticket Management)
+//     if (username === "ticketadmin" && password === "ticket123") {
+//       localStorage.setItem("isTicketAdminLoggedIn", "true");
+//       localStorage.setItem("userName", "Ticket Admin"); // Store admin name
+//       localStorage.setItem("userEmail", "ticket@railway.com"); // Store admin email
+//       alert("Login successful! Redirecting to Ticket Management...");
+//       window.location.href = "ticket-management.html"; // Redirect to ticket management dashboard
+//     } else {
+//       alert("Invalid ticket admin credentials!"); // Show error for invalid ticket admin credentials
+//     }
+//   } else if (role.includes("canteen")) {
+//     // Admin Login (Canteen Management)
+//     if (username === "canteenadmin" && password === "canteen123") {
+//       localStorage.setItem("isCanteenAdminLoggedIn", "true");
+//       localStorage.setItem("userName", "Canteen Admin"); // Store admin name
+//       localStorage.setItem("userEmail", "canteen@railway.com"); // Store admin email
+//       alert("Login successful! Redirecting to Canteen Management...");
+//       window.location.href = "canteen-management.html"; // Redirect to canteen management dashboard
+//     } else {
+//       alert("Invalid canteen admin credentials!"); // Show error for invalid canteen admin credentials
+//     }
+//   } else {
+//     // User Login (Less Specific)
+//     if (username && password) {
+//       // Simulate a successful login for users
+//       localStorage.setItem("isLoggedIn", "true");
+//       localStorage.setItem("userName", username); // Store user's name
+//       localStorage.setItem("userEmail", username + "@example.com"); // Store user's email
+//       alert("Login successful! Redirecting...");
+//       window.location.href = "index.html"; // Redirect to user home page
+//     } else {
+//       alert("Invalid credentials!"); // Show error for invalid credentials
+//     }
+//   }
+// }
+function handleLogin(event) {
+  event.preventDefault(); // Prevent form submission
+
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  if (!username || !password) {
+    showNotification("Please enter valid credentials!", "error");
+    return;
+  }
+
+  // Determine the role based on the active form
+  const role = document.querySelector("h2").textContent.toLowerCase();
+
+  if (role.includes("cleanliness")) {
+    // Admin Login (Cleanliness Management)
+    if (username === "admin" && password === "admin123") {
+      localStorage.setItem("isAdminLoggedIn", "true");
+      localStorage.setItem("userName", "Cleanliness Admin"); // Store admin name
+      localStorage.setItem("userEmail", "clean@railway.com"); // Store admin email
+      showNotification("Login successful! Redirecting to Cleanliness Management...", "success");
+      setTimeout(() => {
+        window.location.href = "cleanliness-management.html"; // Redirect to admin dashboard
+      }, 1500);
+    } else {
+      showNotification("Invalid admin credentials!", "error"); // Show error for invalid admin credentials
+    }
+  } else if (role.includes("ticket")) {
+    // Admin Login (Ticket Management)
+    if (username === "ticketadmin" && password === "ticket123") {
+      localStorage.setItem("isTicketAdminLoggedIn", "true");
+      localStorage.setItem("userName", "Ticket Admin"); // Store admin name
+      localStorage.setItem("userEmail", "ticket@railway.com"); // Store admin email
+      showNotification("Login successful! Redirecting to Ticket Management...", "success");
+      setTimeout(() => {
+        window.location.href = "ticket-management.html"; // Redirect to ticket management dashboard
+      }, 1500);
+    } else {
+      showNotification("Invalid ticket admin credentials!", "error"); // Show error for invalid ticket admin credentials
+    }
+  } else if (role.includes("canteen")) {
+    // Admin Login (Canteen Management)
+    if (username === "canteenadmin" && password === "canteen123") {
+      localStorage.setItem("isCanteenAdminLoggedIn", "true");
+      localStorage.setItem("userName", "Canteen Admin"); // Store admin name
+      localStorage.setItem("userEmail", "canteen@railway.com"); // Store admin email
+      showNotification("Login successful! Redirecting to Canteen Management...", "success");
+      setTimeout(() => {
+        window.location.href = "canteen-management.html"; // Redirect to canteen management dashboard
+      }, 1500);
+    } else {
+      showNotification("Invalid canteen admin credentials!", "error"); // Show error for invalid canteen admin credentials
+    }
+  } else {
+    // User Login (Less Specific)
+    if (username && password) {
+      // Simulate a successful login for users
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("userName", username); // Store user's name
+      localStorage.setItem("userEmail", username + "@example.com"); // Store user's email
+      showNotification("Login successful! Redirecting...", "success");
+      setTimeout(() => {
+        window.location.href = "index.html"; // Redirect to user home page
+      }, 1500);
+    } else {
+      showNotification("Invalid credentials!", "error"); // Show error for invalid credentials
+    }
+  }
+}
+
   </script>
 
     <script>
@@ -361,25 +504,28 @@
         loginForm.style.display = "none";
         registrationForm.style.display = "none";
       }
-      function showLoginForm(role) {
-        const loginForm = document.getElementById("loginForm");
-        const registrationForm = document.getElementById("registrationForm");
-        const registrationLink = document.querySelector("#loginForm .mt-4");
-        const adminOptions = document.getElementById("adminOptions");
-        loginForm.style.display = "block";
-        registrationForm.style.display = "none";
-        adminOptions.style.display = "none";
-        // Only show registration option for user role
-        registrationLink.style.display = role === "user" ? "block" : "none";
-        // Update form title based on role
-        const roleMessages = {
-          user: "User Login",
-          cleanliness: "Cleanliness Management Login",
-          ticket: "Ticket Management Login",
-          canteen: "Canteen Management Login",
-        };
-        document.querySelector("h2").textContent =
-          roleMessages[role] || "Welcome Back";
+function showLoginForm(role) {
+  const loginForm = document.getElementById("loginForm");
+  const registrationForm = document.getElementById("registrationForm");
+  const registrationLink = document.querySelector("#loginForm .mt-4");
+  const adminOptions = document.getElementById("adminOptions");
+
+  loginForm.style.display = "block";
+  registrationForm.style.display = "none";
+  adminOptions.style.display = "none";
+
+  // Only show registration option for user role
+  registrationLink.style.display = role === "user" ? "block" : "none";
+
+  // Update form title based on role
+  const roleMessages = {
+    user: "User Login",
+    cleanliness: "Cleanliness Management Login",
+    ticket: "Ticket Management Login",
+    canteen: "Canteen Management Login",
+  };
+  document.querySelector("h2").textContent = roleMessages[role] || "Welcome Back";
+}
         document.querySelector("#loginForm").addEventListener("submit", function (e) {
           e.preventDefault();
           const username = document.querySelector(
@@ -394,7 +540,7 @@
           }
           showNotification(`${roleMessages[role]} successful!`, "success");
         });
-      }
+      
       function showRegistrationForm() {
         const loginForm = document.getElementById("loginForm");
         const registrationForm = document.getElementById("registrationForm");

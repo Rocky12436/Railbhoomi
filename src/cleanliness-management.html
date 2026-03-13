@@ -15,6 +15,38 @@
       href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
       rel="stylesheet"
     />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#4477FF",
+                        secondary: "#F3F6FF",
+                    },
+                    borderRadius: {
+                        none: "0px",
+                        sm: "4px",
+                        DEFAULT: "8px",
+                        md: "12px",
+                        lg: "16px",
+                        xl: "20px",
+                        "2xl": "24px",
+                        "3xl": "32px",
+                        full: "9999px",
+                        button: "8px",
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        :where([class^="ri-"])::before { content: "\f3c2"; }
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+        }
+    </style>
 </head>
 <body class="bg-gray-100 min-h-screen">
     <nav class="bg-white shadow-sm">
@@ -99,7 +131,7 @@
     </div>
 
     <script>
-        // Mock data for complaints
+        // Mock data for cleanliness-related complaints
         const mockComplaints = [
             {
                 id: 1,
@@ -107,7 +139,7 @@
                 description: "Garbage accumulation near bench area",
                 timestamp: "2025-03-02 06:30",
                 status: "pending",
-                reportedBy: "James Wilson",
+                reportedBy: "Rupali Shekar",
             },
             {
                 id: 2,
@@ -115,7 +147,7 @@
                 description: "Washroom requires immediate cleaning",
                 timestamp: "2025-03-02 07:15",
                 status: "pending",
-                reportedBy: "Emily Parker",
+                reportedBy: "Ashwin Agarwal",
             },
             {
                 id: 3,
@@ -124,7 +156,7 @@
                 timestamp: "2025-03-02 05:45",
                 status: "resolved",
                 resolvedAt: "2025-03-02 06:30",
-                resolvedBy: "John Martinez",
+                resolvedBy: "Sujata Marathe",
             },
         ];
 

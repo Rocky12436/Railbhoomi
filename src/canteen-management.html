@@ -54,7 +54,16 @@
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <a href="/" class="flex items-center">
-                        <span class="text-2xl font-['Pacifico'] text-primary">logo</span>
+                        <!-- <span class="text-2xl font-['Pacifico'] text-primary">logo</span> -->
+                        <img src="RailBhoomy_LOGO.png" alt="#">
+                        <style>
+                          nav img{
+                            height: 68px; 
+                            width: auto; 
+                            max-height: 100%; 
+                            object-fit: contain; 
+                          }
+                         </style> 
                     </a>
                 </div>
                 <div class="flex items-center space-x-4">
@@ -62,10 +71,13 @@
                         <i class="ri-checkbox-circle-line mr-1"></i>
                         System Operational
                     </span>
-                    <div class="flex items-center space-x-2">
+                    <!-- <div class="flex items-center space-x-2">
                         <span class="text-sm text-gray-600">English</span>
                         <i class="ri-arrow-down-s-line text-gray-600"></i>
-                    </div>
+                    </div> -->
+                    <div class="gtranslate_wrapper"></div>
+                    <script>window.gtranslateSettings = {"default_language":"en","native_language_names":true,"detect_browser_language":true,"languages":["en","hi","mr"],"wrapper_selector":".gtranslate_wrapper"}</script>
+                    <script src="https://cdn.gtranslate.net/widgets/latest/dropdown.js" defer></script>
                 </div>
             </div>
         </div>
@@ -139,7 +151,7 @@
                 description: "Food quality is poor and unhygienic",
                 timestamp: "2025-03-02 06:30",
                 status: "pending",
-                reportedBy: "James Wilson",
+                reportedBy: "Roopa Singhania",
             },
             {
                 id: 2,
@@ -147,7 +159,7 @@
                 description: "Overcharging for food items",
                 timestamp: "2025-03-02 07:15",
                 status: "pending",
-                reportedBy: "Emily Parker",
+                reportedBy: "Rupali Suresh",
             },
             {
                 id: 3,
@@ -156,7 +168,7 @@
                 timestamp: "2025-03-02 05:45",
                 status: "resolved",
                 resolvedAt: "2025-03-02 06:30",
-                resolvedBy: "John Martinez",
+                resolvedBy: "Shree Jamkar",
             },
         ];
 
